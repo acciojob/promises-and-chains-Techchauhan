@@ -1,13 +1,55 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Validation</title>
+</head>
+<body>
+    <form id="myForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" />
+        <br />
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" />
+        <br />
+        <button id="btn" type="submit">Submit</button>
+    </form>
 
-<html>
-  <head>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
+    <script>
+        const form = document.getElementById('myForm');
+        const nameInput = document.getElementById('name');
+        const ageInput = document.getElementById('age');
+        const submitButton = document.getElementById('btn');
 
-  <body>
-    <!-- write the body here -->
+        form.addEventListener('submit', (event) => {
+            event.preventDefault(); // Prevent form submission
+            const name = nameInput.value.trim();
+            const age = parseInt(ageInput.value.trim(), 10);
 
-    <script type="text/javascript" src="./script.js"></script>
-  </body>
+            // Validation
+            if (!name || isNaN(age)) {
+                alert("Both fields are required!");
+                return;
+            }
+
+            // Promise to validate age
+            new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    if (age > 18) {
+                        resolve();
+                    } else {
+                        reject();
+                    }
+                }, 4000);
+            })
+            .then(() => {
+                alert(`Welcome, ${name}. You can vote.`);
+            })
+            .catch(() => {
+                alert(`Oh sorry, ${name}. You aren't old enough.`);
+            });
+        });
+    </script>
+</body>
 </html>
